@@ -1,38 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const CartListSlice = createSlice({
-  name: "cartList",
-  initialState: { notStarted: [], inProgress: [], completed: [] },
+const CardListSlice = createSlice({
+  name: "cardList",
+  initialState: {
+    statuses: {
+      notStarted: {
+        details: {
+          label: "Not started",
+          using: "notStarted",
+          color: "#FFCCD1",
+        },
+        list: [],
+      },
+      inProgress: {
+        details: {
+          label: "In progress",
+          using: "inProgress",
+          color: "#FBEECC",
+        },
+        list: [],
+      },
+      completed: {
+        details: { label: "Completed", using: "completed", color: "#CCE7E1" },
+        list: [],
+      },
+    },
+  },
   reducers: {
-    notStarted_addItems: (state, action) => {
-      state.notStarted.push(action.payload);
+    addItems: (state, action) => {
+      const status = action.payload.status;
+      state.statuses[status].list.push(action.payload);
     },
-    notStarted_removeItems: (state, action) => {
-      const index = state.notStarted.indexOf(action.payload);
-      state.notStarted.splice(index, 1);
+    removeItems: (state, action) => {
+      console.log(action.payload);
+      const status = action.payload.heading;
+      const index = state.statuses[status].list.indexOf(action.payload.id);
+      state.statuses[status].list.splice(index, 1);
     },
-    inProgress_addItems: (state, action) => {
-      state.inProgress.push(action.payload);
-    },
-    inProgress_removeItems: (state, action) => {
-      const index = state.inProgress.indexOf(action.payload);
-      state.inProgress.splice(index, 1);
-    },
-    completed_addItems: (state, action) => {
-      state.completed.push(action.payload);
-    },
-    completed_removeItems: (state, action) => {
-      const index = state.completed.indexOf(action.payload);
-      state.completed.splice(index, 1);
+    addStatus: (state, action) => {
+      const using = action.payload.details.using;
+      state.statuses[using] = action.payload;
     },
   },
 });
-export const {
-  notStarted_addItems,
-  notStarted_removeItems,
-  inProgress_addItems,
-  inProgress_removeItems,
-  completed_addItems,
-  completed_removeItems,
-} = CartListSlice.actions;
-export default CartListSlice.reducer;
+export const { addItems, removeItems, addStatus } = CardListSlice.actions;
+export default CardListSlice.reducer;
