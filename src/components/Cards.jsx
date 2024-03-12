@@ -71,7 +71,7 @@ const Cards = ({ heading }) => {
       }}
     >
       <CardHeading heading={heading} length={length} />
-      <div className="py-4 px-2 flex flex-col justify-center items-center gap-4 overflow-y-scroll scroll-smooth max-h-[calc(92vh-140px)]">
+      <div className="py-4 px-2 overflow-y-scroll scroll-smooth max-h-[calc(92vh-140px)]">
         {list &&
           list.map((card) => {
             return <SingleCard details={card} key={card.id} />;
