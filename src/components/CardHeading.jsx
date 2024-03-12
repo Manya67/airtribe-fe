@@ -1,27 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoPlus } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Link } from "react-router-dom";
-const CardHeading = ({ heading, length }) => {
-  const head =
-    heading === "notStarted"
-      ? "Not started"
-      : heading === "inProgress"
-      ? "In progress"
-      : "Completed";
+import NewStatus from "./NewStatus";
+
+const CardHeading = ({ details, length }) => {
+  const [openBox, setOpenBox] = useState(false);
+
+  const handleNewStatusOpenClick = () => {
+    setOpenBox(true);
+  };
+
   return (
     <div className="h-10 flex justify-between items-center px-2">
       <div className="flex w-auto gap-3 justify-center items-center">
         <span
-          className={`text-xl text-black font-bold -tracking-tight px-2 rounded-md ${
-            heading === "notStarted"
-              ? "bg-red-200"
-              : heading === "inProgress"
-              ? "bg-yellow-100"
-              : "bg-green-200"
-          }`}
+          className={`text-xl text-black font-bold -tracking-tight px-2 rounded-md`}
+          style={{ backgroundColor: details.color }}
         >
-          {head}
+          {details.label.length < 15
+            ? details.label
+            : details.label.substring(0, 15) + "..."}
         </span>
         <span>{length}</span>
       </div>
@@ -29,10 +27,11 @@ const CardHeading = ({ heading, length }) => {
         <span>
           <BsThreeDotsVertical size={24} />
         </span>
-        <Link to={`/${heading}/new`}>
+        <span onClick={handleNewStatusOpenClick}>
           <GoPlus size={24} />
-        </Link>
+        </span>
       </div>
+      {openBox && <NewStatus setOpenBox={setOpenBox} />}
     </div>
   );
 };
