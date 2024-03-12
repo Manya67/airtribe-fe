@@ -4,7 +4,6 @@ const CartListSlice = createSlice({
   name: "cartList",
   initialState: { notStarted: [], inProgress: [], completed: [] },
   reducers: {
-    notStarted_getItem: (state, action) => {},
     notStarted_addItems: (state, action) => {
       state.notStarted.push(action.payload);
     },
@@ -35,6 +34,5 @@ export const {
   inProgress_removeItems,
   completed_addItems,
   completed_removeItems,
-  notStarted_getItem,
 } = CartListSlice.actions;
 export default CartListSlice.reducer;

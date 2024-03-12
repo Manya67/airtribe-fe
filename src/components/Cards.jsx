@@ -1,14 +1,23 @@
 import React from "react";
 import SingleCard from "./SingleCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardHeading from "./CardHeading";
 import { GoPlus } from "react-icons/go";
 import { Link } from "react-router-dom";
+import {
+  completed_addItems,
+  completed_removeItems,
+  inProgress_addItems,
+  inProgress_removeItems,
+  notStarted_addItems,
+  notStarted_removeItems,
+} from "../slice/CardListSlice";
 
 const Cards = ({ heading }) => {
   const notStartedList = useSelector((store) => store.cardList.notStarted);
   const inProgressList = useSelector((store) => store.cardList.inProgress);
   const completedList = useSelector((store) => store.cardList.completed);
+  const dispatch = useDispatch();
   const list =
     heading === "notStarted"
       ? notStartedList
@@ -23,17 +32,37 @@ const Cards = ({ heading }) => {
       : completedList.length;
   const handleDragOver = (e) => {
     e.preventDefault();
-    console.log("over now");
+  };
+  const add = (card) => {
+    if (card.status === "notStarted") dispatch(notStarted_addItems(card));
+    else if (card.status === "inProgress") dispatch(inProgress_addItems(card));
+    else dispatch(completed_addItems(card));
+  };
+  const dlt = (id, heading) => {
+    if (heading === "notStarted") dispatch(notStarted_removeItems(id));
+    else if (heading === "inProgress") dispatch(inProgress_removeItems(id));
+    else dispatch(completed_removeItems(id));
   };
   const handleDrop = (e) => {
-    console.log("DROPPED");
-    let dropId = e.dataTransfer.getData("todoId");
-    console.log(dropId);
+    let dropId = e.dataTransfer.getData("dropId");
+    let dropStatus = e.dataTransfer.getData("dropStatus");
+    let dropDesc = e.dataTransfer.getData("dropDesc");
+    let dropTitle = e.dataTransfer.getData("dropTitle");
+    const card = {
+      id: dropId,
+      title: dropTitle,
+      desc: dropDesc,
+      status: heading,
+    };
+    if (dropStatus !== heading) {
+      dlt(dropId, dropStatus);
+      add(card);
+    }
   };
   return (
     <div
       className="w-1/3 h-full"
-      droppable
+      droppable="true"
       onDragOver={(e) => {
         handleDragOver(e);
       }}

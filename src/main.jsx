@@ -15,18 +15,14 @@ const AppRouter = createBrowserRouter([
         path: "",
         element: <Container />,
       },
-      // {
-      //   path: ":heading/:id",
-      //   element: <NewCard />,
-      // },
+      {
+        path: ":heading/:id",
+        element: <NewCard />,
+      },
       {
         path: ":heading/new",
         element: <NewCard />,
       },
-      // {
-      //   path:":id",
-      //   element:
-      // }
     ],
   },
 ]);

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import {
   completed_addItems,
   completed_removeItems,
@@ -8,16 +10,42 @@ import {
   notStarted_addItems,
   notStarted_removeItems,
 } from "../slice/CardListSlice";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io";
-
 const NewCard = () => {
   const { heading, id } = useParams();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [status, setStatus] = useState(heading);
+  const getItem =
+    heading === "notStarted"
+      ? useSelector((store) =>
+          store.cardList.notStarted.find((item) => item.id.toString() === id)
+        )
+      : heading === "inProgress"
+      ? useSelector((store) =>
+          store.cardList.inProgress.find((item) => item.id.toString() === id)
+        )
+      : useSelector((store) =>
+          store.cardList.completed.find((item) => item.id.toString() === id)
+        );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const add = (card) => {
+    if (card.status === "notStarted") dispatch(notStarted_addItems(card));
+    else if (card.status === "inProgress") dispatch(inProgress_addItems(card));
+    else dispatch(completed_addItems(card));
+  };
+  const dlt = (id, heading) => {
+    if (heading === "notStarted") dispatch(notStarted_removeItems(id));
+    else if (heading === "inProgress") dispatch(inProgress_removeItems(id));
+    else dispatch(completed_removeItems(id));
+  };
+  useEffect(() => {
+    if (getItem) {
+      setTitle(getItem.title);
+      setDesc(getItem.desc);
+    }
+  }, [getItem]);
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -27,28 +55,31 @@ const NewCard = () => {
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
   };
-  const handleSaveClick = () => {
-    if (title && desc && heading) {
+
+  const handleSaveClick = (e) => {
+    if (title && desc && status) {
       const card = {
         id: Date.now(),
         title,
         desc,
         status,
       };
-      if (heading === "notStarted") dispatch(notStarted_addItems(card));
-      else if (heading === "inProgress") dispatch(inProgress_addItems(card));
-      else dispatch(completed_addItems(card));
+      if (id !== undefined) {
+        e.preventDefault();
+        dlt(id, heading);
+      }
+      add(card);
       navigate("/");
     }
   };
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (e) => {
+    e.preventDefault();
     if (id) {
-      if (heading === "notStarted") dispatch(notStarted_removeItems(card));
-      else if (heading === "inProgress") dispatch(inProgress_removeItems(card));
-      else dispatch(completed_removeItems(card));
+      dlt(id, heading);
       navigate("/");
     }
   };
+
   if (
     heading === "notStarted" ||
     heading === "inProgress" ||
@@ -127,8 +158,7 @@ const NewCard = () => {
             <button
               type="button"
               onClick={handleDeleteClick}
-              disabled={id ? true : false}
-              // check
+              disabled={id === undefined ? true : false}
               className="bg-red-300 px-3 rounded-md text-xl font-bold -tracking-tight"
             >
               Delete

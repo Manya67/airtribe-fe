@@ -8,8 +8,10 @@ const SingleCard = ({ details }) => {
     navigate(`${status}/${id}`);
   };
   const handleDragStart = (e, id) => {
-    console.log("dragging...");
-    e.dataTransfer.setData("todoId", id);
+    e.dataTransfer.setData("dropId", id);
+    e.dataTransfer.setData("dropTitle", title);
+    e.dataTransfer.setData("dropDesc", desc);
+    e.dataTransfer.setData("dropStatus", status);
   };
   return (
     <div
