@@ -1,8 +1,30 @@
-# React + Vite
+# Todo - List
+A web application, that lets you add the task under different statuses and lets you track your growth.
+# Hosted Link
+https://todo-list-manya.netlify.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Features 
+- You can drag and drop tasks from one status to another.
+- Under any status, you can add tasks using the "New" button.
+- Clicking on a task should open a new page, where you can change the title, status, and description and delete a task from the details page.
+- Stored information in local storage, using Redux
+- Displaying the count of cards under each status.
+- Option to add a new status (plus icon beside every status)
+- Designed a similar-looking UI (as given).
 
-Currently, two official plugins are available:
+# Technologies
+- React JS + Tailwind CSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Steps to run the web app locally 
+```
+// clone the repo, open terminal
+git clone https://github.com/Manya67/airtribe-fe.git
+cd airtribe-fe
+npm install
+npm run dev
+// application started running locally(usually localhost:5173)
+```
+
+# Connect 
+LinkedIn: https://www.linkedin.com/in/manya-jain62002/
+Mail: manyajain62002@gmail.com 
