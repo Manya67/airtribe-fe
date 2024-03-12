@@ -17,7 +17,7 @@ const SingleCard = ({ details }) => {
       onDragStart={(e) => {
         handleDragStart(e, id);
       }}
-      className="h-16 border-[1px] border-gray rounded-lg w-full px-2 py-1 text-black flex flex-shrink-0 flex-col"
+      className="h-16 border-[1px] border-gray rounded-lg w-full px-2 py-1 text-black flex flex-shrink-0 flex-col shadow-md"
       onClick={handleOpenCardClick}
     >
       <span className="text-2xl font-semibold">{title}</span>

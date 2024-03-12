@@ -15,12 +15,7 @@ const NewCard = () => {
   const { heading, id } = useParams();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const status =
-    heading === "notStarted"
-      ? "Not started"
-      : heading === "inProgress"
-      ? "In progress"
-      : "Completed";
+  const [status, setStatus] = useState(heading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleTitleChange = (e) => {
@@ -28,6 +23,9 @@ const NewCard = () => {
   };
   const handleDescChange = (e) => {
     setDesc(e.target.value);
+  };
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
   };
   const handleSaveClick = () => {
     if (title && desc && heading) {
@@ -101,12 +99,22 @@ const NewCard = () => {
             />
           </div>
           <div className="flex gap-2 h-1/6 items-center text-xl mb-5">
-            <span className="font-bold text-3xl -tracking-tighter">
+            <label
+              htmlFor="status"
+              className="font-bold text-3xl -tracking-tighter"
+            >
               Status:
-            </span>
-            <span className="text-3xl font-bold -tracking-tight px-2 rounded-md">
-              {status}
-            </span>
+            </label>
+            <select
+              id="status"
+              defaultValue={heading}
+              className="text-3xl font-bold -tracking-tight px-2 rounded-md outline-none"
+              onChange={handleStatusChange}
+            >
+              <option value="notStarted">Not started</option>
+              <option value="inProgress">In progress</option>
+              <option value="completed">Completed</option>
+            </select>
           </div>
           <div className="h-[10%] flex justify-between">
             <button
