@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <Provider store={store}>
-      <div className="h-[100vh] w-[100wh]">
+      <div className="h-[100vh] w-[100wh] text-gray overflow-hidden">
         <Heading />
         <Outlet />
       </div>

@@ -8,7 +8,8 @@ import {
   notStarted_addItems,
   notStarted_removeItems,
 } from "../slice/CardListSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const NewCard = () => {
   const { heading, id } = useParams();
@@ -37,7 +38,7 @@ const NewCard = () => {
         status,
       };
       if (heading === "notStarted") dispatch(notStarted_addItems(card));
-      else if (heading === "InProgress") dispatch(inProgress_addItems(card));
+      else if (heading === "inProgress") dispatch(inProgress_addItems(card));
       else dispatch(completed_addItems(card));
       navigate("/");
     }
@@ -45,7 +46,7 @@ const NewCard = () => {
   const handleDeleteClick = () => {
     if (id) {
       if (heading === "notStarted") dispatch(notStarted_removeItems(card));
-      else if (heading === "InProgress") dispatch(inProgress_removeItems(card));
+      else if (heading === "inProgress") dispatch(inProgress_removeItems(card));
       else dispatch(completed_removeItems(card));
       navigate("/");
     }
@@ -56,7 +57,13 @@ const NewCard = () => {
     heading === "completed"
   ) {
     return (
-      <div className="h-[92vh] p-8 overflow-hidden flex justify-center">
+      <div className="h-[92vh] px-8 py-2 overflow-hidden flex flex-col items-center justify-start text-black gap-4">
+        <Link
+          to={"/"}
+          className="self-start py-2 px-3 rounded-md text-xl font-bold -tracking-tight border-2"
+        >
+          <IoMdArrowRoundBack />
+        </Link>
         <div className="w-[50%] min-h-[50%] border-2 border-gray-900 p-4 flex flex-col rounded-md gap-3">
           <div className="flex gap-2 h-2/6 items-start flex-col text-xl">
             <label
