@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   completed_addItems,
+  completed_removeItems,
   inProgress_addItems,
+  inProgress_removeItems,
   notStarted_addItems,
+  notStarted_removeItems,
 } from "../slice/CardListSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -39,6 +42,14 @@ const NewCard = () => {
       navigate("/");
     }
   };
+  const handleDeleteClick = () => {
+    if (id) {
+      if (heading === "notStarted") dispatch(notStarted_removeItems(card));
+      else if (heading === "InProgress") dispatch(inProgress_removeItems(card));
+      else dispatch(completed_removeItems(card));
+      navigate("/");
+    }
+  };
   if (
     heading === "notStarted" ||
     heading === "inProgress" ||
@@ -61,7 +72,7 @@ const NewCard = () => {
               type="text"
               required
               placeholder="write your card title"
-              className=" border-2 border-gray-900 w-[60%] h-[40%] px-4 rounded-xl outline-none"
+              className=" border-2 border-gray-900 w-full h-[40%] px-4 rounded-xl outline-none"
             />
           </div>
           <div className="flex gap-2 h-2/6 items-start flex-col text-xl">
@@ -79,7 +90,7 @@ const NewCard = () => {
               placeholder="write your card description"
               rows="30"
               cols="40"
-              className=" border-2 border-gray-900 w-[60%]  px-4 rounded-xl  outline-none py-2"
+              className=" border-2 border-gray-900 w-full px-4 rounded-xl  outline-none py-2"
             />
           </div>
           <div className="flex gap-2 h-1/6 items-center text-xl mb-5">
@@ -90,13 +101,24 @@ const NewCard = () => {
               {status}
             </span>
           </div>
-          <button
-            type="submit"
-            onClick={handleSaveClick}
-            className="h-[10%] bg-green-200 px-3 rounded-md text-xl font-bold -tracking-tight"
-          >
-            Save
-          </button>
+          <div className="h-[10%] flex justify-between">
+            <button
+              type="submit"
+              onClick={handleSaveClick}
+              className="bg-green-300 px-3 rounded-md text-xl font-bold -tracking-tight"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={handleDeleteClick}
+              disabled={id ? true : false}
+              // check
+              className="bg-red-300 px-3 rounded-md text-xl font-bold -tracking-tight"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     );

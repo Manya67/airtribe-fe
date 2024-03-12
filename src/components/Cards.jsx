@@ -15,6 +15,12 @@ const Cards = ({ heading }) => {
       : heading === "inProgress"
       ? inProgressList
       : completedList;
+  const length =
+    heading === "notStarted"
+      ? notStartedList.length
+      : heading === "inProgress"
+      ? inProgressList.length
+      : completedList.length;
   const handleDragOver = (e) => {
     e.preventDefault();
     console.log("over now");
@@ -35,7 +41,7 @@ const Cards = ({ heading }) => {
         handleDrop(e);
       }}
     >
-      <CardHeading heading={heading} />
+      <CardHeading heading={heading} length={length} />
       <div className="py-2 px-2 flex flex-col justify-center items-center gap-4 overflow-scroll">
         {list &&
           list.map((card) => {
@@ -44,7 +50,7 @@ const Cards = ({ heading }) => {
 
         <Link
           to={`/${heading}/new`}
-          className="h-16 border-[1px] w-full flex justify-start gap-2 text-xl items-center"
+          className="h-10 border-[1px] w-full flex justify-start gap-2 text-xl items-center px-2 py-2"
         >
           <span>New</span>
           <GoPlus />

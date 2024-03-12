@@ -11,7 +11,6 @@ const SingleCard = ({ details }) => {
     console.log("dragging...");
     e.dataTransfer.setData("todoId", id);
   };
-
   return (
     <div
       draggable
@@ -22,7 +21,11 @@ const SingleCard = ({ details }) => {
       onClick={handleOpenCardClick}
     >
       <span className="text-xl font-semibold">{title}</span>
-      <p>{desc}</p>
+      {desc.length < 40 ? (
+        <p>{desc}</p>
+      ) : (
+        <p>{desc.substring(0, 40) + "..."}</p>
+      )}
     </div>
   );
 };
